@@ -1,0 +1,75 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="C:\Users\79146\IdeaProjects\new_file\.idea\lab4_1\style.css" />
+  <title> Поиск книг </title>
+  {% macro render_table(table_1, relation_1) %}
+  <p>
+    <b>{{table_1}} </b>
+  </p>
+  <!-- количество строк в таблице -->
+  {% set n = relation_1|length %}
+  <table>
+    <!-- формируем заголовок таблицы (имена столбцов) -->
+    <tr>
+      {% for name in relation_1.dtypes.index %}
+      <th>{{name}}</th>
+      {% endfor %}
+    </tr>
+
+    <tbody>
+    <!-- для всех строк таблицы -->
+    {% for i in range(n) %}
+    <tr>
+      <!-- выводим значение каждого столбца -->
+      {% for name in relation_1.dtypes.index %}
+      {% if relation_1.loc[i, name] == None %}
+      <td><input type="submit" value="Сдать"></td>
+      {% else %}
+      <td> {{ relation_1.loc[i, name] }} </td>
+      {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endmacro %}
+  {% macro make_field(title, id, val, combo_box) %}
+  <form>
+    {{title}}
+    <!-- Создаем поле со списком -->
+    <select name={{id}}>
+      {% set n = combo_box|length %}
+
+      {% for i in range(n) %}
+      {% set id_r = combo_box.loc[i, id] %}
+
+      {% if id_r == val %}
+
+      <option selected value={{id_r}}>
+        {% else %}
+      <option value={{id_r}}>
+        {% endif %}
+        {{ combo_box.loc[i, id] }}
+      </option>
+      {% endfor %}
+    </select>
+    <input type="submit" value="Найти">
+  </form>
+  {% endmacro %}
+</head>
+<body>
+<p>
+  {{ make_field("Минимальное количество", "amount", amount, df_amount) }}
+</p>
+<p>
+  {{ make_field("Минимальная цена", "price", min_price, df_price) }}
+</p>
+<p>
+  {{ make_field("Максимальная цена", "price", max_price, df_price) }}
+</p>
+
+<div class="line">
+  {{ render_table("Найденные книги", books) }}
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+table{
+    margin: 20px 5px;
+	border-collapse:collapse;
+}
+table td, th{
+	padding: 5px 10px;
+	border: thin solid grey;
+}
+table th {
+    background: LightGray;
+}
+.line {
+float: left;
+margin-right: 5px;
+}
+p {
+text-align: center;
+}
